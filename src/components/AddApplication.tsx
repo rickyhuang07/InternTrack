@@ -10,108 +10,193 @@ export default function AddApplication() {
   const [dateApplied, setDateApplied] = useState("");
   const [deadline, setDeadline] = useState("");
   const [link, setLink] = useState("");
-  const [notes, setNotes] = useState(""); 
+  const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function submitApplication() {
-  const response = await fetch("/api/applications", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      company,
-      position,
-      location,
-      status,
-      dateApplied: dateApplied || null,
-      deadline: deadline || null,
-      link,
-      notes,
-    }),
-  });
+    if (!company.trim() || !position.trim()) {
+      alert("Please enter a company and position.");
+      return;
+    }
 
-  if (!response.ok) {
-    const error = await response.text();
-    console.error("Failed to add application:", error);
-    alert("Failed to add application. Check the terminal.");
-    return;
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/applications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          company,
+          position,
+          location,
+          status,
+          dateApplied: dateApplied || null,
+          deadline: deadline || null,
+          link,
+          notes,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error("Failed to add application:", error);
+        alert("Failed to add application.");
+        return;
+      }
+
+      const application = await response.json();
+
+      console.log("Created application:", application);
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const application = await response.json();
-
-  console.log("Created application:", application);
-  alert("Application added!");
-
-  window.location.reload();
-}
-
   return (
-    <div className="border rounded-xl p-5 mt-10">
+    <div className="space-y-5">
 
-      <h2 className="text-xl font-bold mb-4">
-        Add Application
-      </h2>
-
-      <input
-        className="border p-2 mr-2"
-        placeholder="Company"
-        value={company}
-        onChange={(e) => setCompany(e.target.value)}
-      />
-
-      <input
-        className="border p-2 mr-2"
-        placeholder="Position"
-        value={position}
-        onChange={(e) => setPosition(e.target.value)}
-      />
-      <input
-        className="border p-2 mr-2"
-        placeholder="Location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-      />
-      <select
-        className="border p-2 mr-2"
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-      >
-        <option value="APPLIED">Applied</option>
-        <option value="OA">OA</option>
-        <option value="INTERVIEW">Interview</option>
-        <option value="OFFER">Offer</option>
-        <option value="REJECTED">Rejected</option>
-      </select>
-      <input
-        className="border p-2 mr-2"
-        type="date"
-        value={dateApplied}
-        onChange={(e) => setDateApplied(e.target.value)}
-      />
+      {/* Company */}
+      <div>
+        <label className="mb-2 block text-xs font-medium text-gray-600">
+          Company
+        </label>
 
         <input
-        className="border p-2 mr-2"
-        type="date"
-        value={deadline}
-        onChange={(e) => setDeadline(e.target.value)}
+          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          placeholder="e.g. Google"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
         />
+      </div>
+
+
+      {/* Position */}
+      <div>
+        <label className="mb-2 block text-xs font-medium text-gray-600">
+          Position
+        </label>
+
         <input
-        className="border p-2 mr-2"
-        placeholder="Job Link"
-        value={link}
-        onChange={(e) => setLink(e.target.value)}
+          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          placeholder="e.g. Software Engineer Intern"
+          value={position}
+          onChange={(e) => setPosition(e.target.value)}
         />
+      </div>
+
+
+      {/* Location */}
+      <div>
+        <label className="mb-2 block text-xs font-medium text-gray-600">
+          Location
+        </label>
+
+        <input
+          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          placeholder="e.g. Houston, TX"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+      </div>
+
+
+      {/* Status */}
+      <div>
+        <label className="mb-2 block text-xs font-medium text-gray-600">
+          Status
+        </label>
+
+        <select
+          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <option value="APPLIED">Applied</option>
+          <option value="OA">Online Assessment</option>
+          <option value="INTERVIEW">Interview</option>
+          <option value="OFFER">Offer</option>
+          <option value="REJECTED">Rejected</option>
+        </select>
+      </div>
+
+
+      {/* Dates */}
+      <div className="grid grid-cols-2 gap-3">
+
+        <div>
+          <label className="mb-2 block text-xs font-medium text-gray-600">
+            Date Applied
+          </label>
+
+          <input
+            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+            type="date"
+            value={dateApplied}
+            onChange={(e) => setDateApplied(e.target.value)}
+          />
+        </div>
+
+
+        <div>
+          <label className="mb-2 block text-xs font-medium text-gray-600">
+            Deadline
+          </label>
+
+          <input
+            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+            type="date"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+          />
+        </div>
+
+      </div>
+
+
+      {/* Job Link */}
+      <div>
+        <label className="mb-2 block text-xs font-medium text-gray-600">
+          Job Link
+        </label>
+
+        <input
+          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          placeholder="https://..."
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+        />
+      </div>
+
+
+      {/* Notes */}
+      <div>
+        <label className="mb-2 block text-xs font-medium text-gray-600">
+          Notes
+        </label>
+
         <textarea
-        className="border p-2 mr-2"
-        placeholder="Notes"
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
+          className="min-h-24 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          placeholder="Add any notes about this application..."
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
         />
+      </div>
+
+
+      {/* Submit */}
       <button
-        className="border rounded p-2"
+        className="w-full rounded-lg bg-[#635bff] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5148e5] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
         onClick={submitApplication}
+        disabled={loading}
       >
-        Add Application
+        {loading ? "Adding..." : "Add Application"}
       </button>
 
     </div>
