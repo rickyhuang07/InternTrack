@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import AddApplication from "@/components/AddApplication";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function Dashboard() {
   const applications = await prisma.application.findMany();
