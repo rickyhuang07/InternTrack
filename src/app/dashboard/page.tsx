@@ -6,7 +6,6 @@ export const revalidate = 0;
 
 export default async function Dashboard() {
   const applications = await prisma.application.findMany();
-  console.log("DASHBOARD APPLICATIONS:", applications.length);
 
   const stats = {
     APPLIED: 0,
