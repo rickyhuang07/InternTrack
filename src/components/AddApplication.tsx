@@ -11,7 +11,7 @@ export default function AddApplication() {
   const [deadline, setDeadline] = useState("");
   const [link, setLink] = useState("");
   const [notes, setNotes] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function submitApplication() {
     if (!company.trim() || !position.trim()) {
@@ -19,7 +19,7 @@ export default function AddApplication() {
       return;
     }
 
-    setLoading(true);
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/applications", {
@@ -46,30 +46,38 @@ export default function AddApplication() {
         return;
       }
 
-      const application = await response.json();
+      await response.json();
 
-      console.log("Created application:", application);
+      setCompany("");
+      setPosition("");
+      setLocation("");
+      setStatus("APPLIED");
+      setDateApplied("");
+      setDeadline("");
+      setLink("");
+      setNotes("");
 
       window.location.reload();
+
     } catch (error) {
       console.error(error);
       alert("Something went wrong. Please try again.");
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
 
       {/* Company */}
       <div>
-        <label className="mb-2 block text-xs font-medium text-gray-600">
+        <label className="mb-1.5 block text-xs font-medium text-gray-600">
           Company
         </label>
 
         <input
-          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           placeholder="e.g. Google"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
@@ -79,12 +87,12 @@ export default function AddApplication() {
 
       {/* Position */}
       <div>
-        <label className="mb-2 block text-xs font-medium text-gray-600">
+        <label className="mb-1.5 block text-xs font-medium text-gray-600">
           Position
         </label>
 
         <input
-          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           placeholder="e.g. Software Engineer Intern"
           value={position}
           onChange={(e) => setPosition(e.target.value)}
@@ -94,12 +102,12 @@ export default function AddApplication() {
 
       {/* Location */}
       <div>
-        <label className="mb-2 block text-xs font-medium text-gray-600">
+        <label className="mb-1.5 block text-xs font-medium text-gray-600">
           Location
         </label>
 
         <input
-          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           placeholder="e.g. Houston, TX"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
@@ -109,12 +117,12 @@ export default function AddApplication() {
 
       {/* Status */}
       <div>
-        <label className="mb-2 block text-xs font-medium text-gray-600">
+        <label className="mb-1.5 block text-xs font-medium text-gray-600">
           Status
         </label>
 
         <select
-          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -128,29 +136,28 @@ export default function AddApplication() {
 
 
       {/* Dates */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
         <div>
-          <label className="mb-2 block text-xs font-medium text-gray-600">
+          <label className="mb-1.5 block text-xs font-medium text-gray-600">
             Date Applied
           </label>
 
           <input
-            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+            className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
             type="date"
             value={dateApplied}
             onChange={(e) => setDateApplied(e.target.value)}
           />
         </div>
 
-
         <div>
-          <label className="mb-2 block text-xs font-medium text-gray-600">
+          <label className="mb-1.5 block text-xs font-medium text-gray-600">
             Deadline
           </label>
 
           <input
-            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+            className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
             type="date"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
@@ -162,12 +169,12 @@ export default function AddApplication() {
 
       {/* Job Link */}
       <div>
-        <label className="mb-2 block text-xs font-medium text-gray-600">
+        <label className="mb-1.5 block text-xs font-medium text-gray-600">
           Job Link
         </label>
 
         <input
-          className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
+          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           placeholder="https://..."
           value={link}
           onChange={(e) => setLink(e.target.value)}
@@ -177,13 +184,13 @@ export default function AddApplication() {
 
       {/* Notes */}
       <div>
-        <label className="mb-2 block text-xs font-medium text-gray-600">
+        <label className="mb-1.5 block text-xs font-medium text-gray-600">
           Notes
         </label>
 
         <textarea
-          className="min-h-24 w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#635bff] focus:bg-white focus:ring-2 focus:ring-[#635bff]/10"
-          placeholder="Add any notes about this application..."
+          className="min-h-[90px] w-full resize-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
+          placeholder="Add notes about this application..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
@@ -192,11 +199,11 @@ export default function AddApplication() {
 
       {/* Submit */}
       <button
-        className="w-full rounded-lg bg-[#635bff] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5148e5] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-[#635bff] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#554ee6] disabled:cursor-not-allowed disabled:opacity-50"
         onClick={submitApplication}
-        disabled={loading}
+        disabled={isSubmitting}
       >
-        {loading ? "Adding..." : "Add Application"}
+        {isSubmitting ? "Adding Application..." : "Add Application"}
       </button>
 
     </div>
