@@ -56,10 +56,13 @@ export default async function Dashboard() {
             Dashboard
           </div>
 
-          <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-500">
-            <span>▤</span>
-            Applications
-          </div>
+          <a
+            href="/dashboard/applications"
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-500 transition hover:bg-gray-50 hover:text-gray-700"
+          >
+          <span>▤</span>
+          Applications
+          </a>
 
         </nav>
 
