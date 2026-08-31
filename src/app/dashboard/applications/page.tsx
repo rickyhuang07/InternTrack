@@ -12,8 +12,8 @@ export default async function ApplicationsPage() {
   });
 
   return (
-    <main className="min-h-screen bg-[#f7f7f8] p-6 md:ml-64 md:p-10">
-      <div className="mx-auto max-w-7xl">
+    <main className="min-h-screen bg-[#f7f7f8]">
+        <div className="mx-auto max-w-7xl px-6 py-8 md:px-10"> {/* give applications page same content container as dashboard*/}
 
         {/* Header */}
         <div className="mb-8">
