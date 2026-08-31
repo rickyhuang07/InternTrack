@@ -28,65 +28,8 @@ export default async function Dashboard() {
   return (
     <main className="min-h-screen bg-[#f7f7f8] text-[#171717]">
 
-      {/* Sidebar */}
-      <aside className="fixed left-0 top-0 hidden h-screen w-64 flex-col border-r border-gray-200 bg-white p-6 md:flex">
-
-        <div className="mb-10 flex items-center gap-3">
-
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#635bff] text-sm font-bold text-white">
-            IT
-          </div>
-
-          <div>
-            <h1 className="font-semibold">
-              InternTrack
-            </h1>
-
-            <p className="text-xs text-gray-400">
-              Career Dashboard
-            </p>
-          </div>
-
-        </div>
-
-        <nav className="space-y-2">
-
-          <div className="flex items-center gap-3 rounded-lg bg-[#f0efff] px-3 py-2.5 text-sm font-medium text-[#635bff]">
-            <span>▦</span>
-            Dashboard
-          </div>
-
-          <a
-            href="/dashboard/applications"
-            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-500 transition hover:bg-gray-50 hover:text-gray-700"
-          >
-          <span>▤</span>
-          Applications
-          </a>
-
-        </nav>
-
-        <div className="mt-auto rounded-xl bg-gray-50 p-4">
-
-          <p className="text-xs font-medium text-gray-500">
-            Applications
-          </p>
-
-          <p className="mt-1 text-2xl font-bold">
-            {applications.length}
-          </p>
-
-          <p className="mt-1 text-xs text-gray-400">
-            tracked so far
-          </p>
-
-        </div>
-
-      </aside>
-
 
       {/* Main */}
-      <div className="md:ml-64">
 
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-10">
 
@@ -357,7 +300,7 @@ export default async function Dashboard() {
 
         </div>
 
-      </div>
+    
 
     </main>
   );
