@@ -114,7 +114,7 @@ export default function ApplicationFilters({
 
                   {app.location && (
                     <p className="mt-1 text-xs text-gray-400">
-                       {app.location}
+                       📍 {app.location}
                     </p>
                   )}
                 </div>

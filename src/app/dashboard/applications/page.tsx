@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import ApplicationFilters from "@/components/ApplicationFilters"
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -30,103 +31,21 @@ export default async function ApplicationsPage() {
         </div>
 
 
-        {/* Application List */}
+        {/* Applications */}
         <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
-          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
+          <div className="border-b border-gray-100 px-6 py-5">
+            <h2 className="font-semibold">
+              Applications
+            </h2>
 
-            <div>
-              <h2 className="font-semibold">
-                Applications
-              </h2>
-
-              <p className="mt-1 text-sm text-gray-400">
-                {applications.length} total
-              </p>
-            </div>
-
+            <p className="mt-1 text-sm text-gray-400">
+              Search by company or position and filter by status.
+            </p>
           </div>
 
-
-          {applications.length === 0 ? (
-
-            <div className="px-6 py-20 text-center">
-
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f0efff] text-2xl text-[#635bff]">
-                +
-              </div>
-
-              <h3 className="mt-4 font-semibold">
-                No applications yet
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-400">
-                Add an application from your dashboard.
-              </p>
-
-            </div>
-
-          ) : (
-
-            <div className="divide-y divide-gray-100">
-
-              {applications.map((app) => (
-
-                <div
-                  key={app.id}
-                  className="flex flex-col gap-4 px-6 py-5 transition hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between"
-                >
-
-                  {/* Company */}
-                  <div className="flex items-center gap-4">
-
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gray-100 font-semibold text-gray-600">
-                      {app.company.charAt(0).toUpperCase()}
-                    </div>
-
-                    <div>
-
-                      <h3 className="font-semibold">
-                        {app.company}
-                      </h3>
-
-                      <p className="text-sm text-gray-500">
-                        {app.position}
-                      </p>
-
-                      {app.location && (
-                        <p className="mt-1 text-xs text-gray-400">
-                          {app.location}
-                        </p>
-                      )}
-
-                    </div>
-
-                  </div>
-
-
-                  {/* Status + Date */}
-                  <div className="flex items-center gap-4">
-
-                    <StatusBadge status={app.status} />
-
-                    <span className="text-xs text-gray-400">
-                      {app.dateApplied
-                        ? new Date(app.dateApplied).toLocaleDateString()
-                        : "No date"}
-                    </span>
-
-                  </div>
-
-                </div>
-
-              ))}
-
-            </div>
-
-          )}
-
-        </section>
+          <ApplicationFilters applications={applications} />
+          </section>
 
       </div>
     </main>
