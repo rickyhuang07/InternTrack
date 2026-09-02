@@ -18,6 +18,7 @@ export default function ApplicationFilters({
 }) {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
+  const [sort, setSort] = useState("NEWEST"); //remembers which sorting option user selected
 
   const filteredApplications = applications.filter((app) => {
     const matchesSearch =
@@ -28,7 +29,32 @@ export default function ApplicationFilters({
       status === "ALL" || app.status === status;
 
     return matchesSearch && matchesStatus;
-  });
+  })
+  // rearrange applications
+    .sort((a, b) => {
+      if (sort === "NEWEST") {
+        return (
+          new Date(b.dateApplied || 0).getTime() -
+          new Date(a.dateApplied || 0).getTime()
+        );
+      }
+    if (sort === "OLDEST") {
+        return (
+          new Date(a.dateApplied || 0).getTime() -
+          new Date(b.dateApplied || 0).getTime()
+        );
+      }
+
+      if (sort === "COMPANY_ASC") {
+        return a.company.localeCompare(b.company);
+      }
+
+      if (sort === "COMPANY_DESC") {
+        return b.company.localeCompare(a.company);
+      }
+
+      return 0;
+    });
 
   return (
     <div>
@@ -57,6 +83,17 @@ export default function ApplicationFilters({
             <option value="INTERVIEW">Interview</option>
             <option value="OFFER">Offer</option>
             <option value="REJECTED">Rejected</option>
+          </select>
+          {/* add dropdown*/}
+         <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#635bff]"
+          >
+            <option value="NEWEST">Newest</option>
+            <option value="OLDEST">Oldest</option>
+            <option value="COMPANY_ASC">Company A → Z</option>
+            <option value="COMPANY_DESC">Company Z → A</option>
           </select>
 
         </div>
