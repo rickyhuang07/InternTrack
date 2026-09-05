@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link"
 
 type Application = {
   id: string;
@@ -129,8 +130,9 @@ export default function ApplicationFilters({
 
           {filteredApplications.map((app) => (
 
-            <div
+            <Link
               key={app.id}
+              href={`/dashboard/applications/${app.id}`}
               className="flex flex-col gap-4 px-6 py-5 transition hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between"
             >
 
@@ -171,7 +173,7 @@ export default function ApplicationFilters({
 
               </div>
 
-            </div>
+            </Link>
 
           ))}
 
