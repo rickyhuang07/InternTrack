@@ -31,6 +31,14 @@ export default async function ApplicationDetails({
         >
           ← Back to Applications
         </Link>
+        <div className="mt-4 flex justify-end">
+            <Link
+                href={`/dashboard/applications/${application.id}/edit`}
+                className="rounded-lg bg-[#635bff] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#5148d8]"
+            >
+                Edit Application
+            </Link>
+        </div>
 
         <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
 
