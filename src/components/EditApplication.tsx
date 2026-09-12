@@ -118,6 +118,12 @@ const [notes, setNotes] = useState(application.notes || "");
           className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-2"
         />
       </div>
+            <button
+        type="submit"
+        className="rounded-lg bg-[#635bff] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#5148d8]"
+      >
+        Save Changes
+      </button>
     </form>
   );
 }
