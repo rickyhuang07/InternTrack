@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import EditApplication from "@/components/EditApplication";  // allows us to actually render editapplication from page
 
 export const dynamic = "force-dynamic";
 
@@ -27,9 +28,7 @@ export default async function EditApplicationPage({
           Edit Application
         </h1>
 
-        <p className="mt-2 text-sm text-gray-500">
-          Editing application for {application?.company}
-        </p>
+        <EditApplication application={application} />
       </div>
     </main>
   );
