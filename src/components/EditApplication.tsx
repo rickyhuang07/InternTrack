@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function EditApplication({
   application,
@@ -17,6 +18,7 @@ export default function EditApplication({
     notes: string | null;
   };
 }) {
+  const router = useRouter();
   const [company, setCompany] = useState(application.company);
   const [position, setPosition] = useState(application.position);
   const [location, setLocation] = useState(application.location || "");
@@ -42,7 +44,7 @@ const [notes, setNotes] = useState(application.notes || "");
   onSubmit={async (e) => {
     e.preventDefault();
 
-    await fetch("/api/applications", {
+    const response = await fetch("/api/applications", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +61,11 @@ const [notes, setNotes] = useState(application.notes || "");
         notes,
       }),
     });
+    // stop function if request unsuccessful
+    if (!response.ok) {
+  return;
+    }
+    router.push(`/dashboard/applications/${application.id}`); // redirect user back to details page
   }}
   className="mt-6 space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
 >
