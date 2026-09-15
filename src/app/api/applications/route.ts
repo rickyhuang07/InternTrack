@@ -41,3 +41,29 @@ export async function POST(request: Request) {
 
   return NextResponse.json(application);
 }
+// handles editing fields
+export async function PUT(request: Request) { 
+  const body = await request.json();
+
+  const application = await prisma.application.update({
+    where: {
+      id: body.id,
+    },
+    data: {
+      company: body.company,
+      position: body.position,
+      location: body.location,
+      status: body.status,
+      dateApplied: body.dateApplied
+        ? new Date(body.dateApplied)
+        : null,
+      deadline: body.deadline
+        ? new Date(body.deadline)
+        : null,
+      link: body.link,
+      notes: body.notes,
+    },
+  });
+
+  return NextResponse.json(application);
+}

@@ -37,7 +37,31 @@ const [link, setLink] = useState(application.link || "");
 const [notes, setNotes] = useState(application.notes || "");
 
   return (
-    <form className="mt-6 space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    // sends edited data to the api
+    <form 
+  onSubmit={async (e) => {
+    e.preventDefault();
+
+    await fetch("/api/applications", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: application.id,
+        company,
+        position,
+        location,
+        status,
+        dateApplied,
+        deadline,
+        link,
+        notes,
+      }),
+    });
+  }}
+  className="mt-6 space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+>
       <div>
         <label className="text-sm font-medium">Company</label>
         <input
