@@ -1,21 +1,23 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// grabs applications from postgres to display on frontend
 export async function GET() {
   const applications = await prisma.application.findMany();
 
   return NextResponse.json(applications);
 }
-
+// adds new application
 export async function POST(request: Request) {
   const body = await request.json();
-
+ // we need to make sure correct user is creating application
   const user = await prisma.user.upsert({
     where: {
       email: "test@example.com",
     },
     update: {},
-    create: {
+    // if user doesn't exist create acc for them
+    create: { 
       email: "test@example.com",
       name: "Test User",
     },
@@ -66,4 +68,16 @@ export async function PUT(request: Request) {
   });
 
   return NextResponse.json(application);
+}
+// deletes applications
+export async function DELETE(request: Request) {
+  const body = await request.json();
+
+  await prisma.application.delete({
+    where: {
+      id: body.id,
+    },
+  });
+
+  return NextResponse.json({ success: true });
 }
