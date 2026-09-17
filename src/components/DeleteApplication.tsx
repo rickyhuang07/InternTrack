@@ -1,10 +1,12 @@
 "use client"; // we need this bc we have to perform upon user interaction (click)
+import { useRouter } from "next/navigation";
 
 export default function DeleteApplication({
   applicationId,
 }: {
   applicationId: string;
 }) {
+  const router = useRouter(); // gives client component access to next.js nav
   async function handleDelete() {
     await fetch("/api/applications", {
       method: "DELETE",
@@ -15,6 +17,7 @@ export default function DeleteApplication({
         id: applicationId,
       }),
     });
+    router.push("/dashboard/applications"); // redirect
   }
 
   return (
