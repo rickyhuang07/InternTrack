@@ -43,13 +43,13 @@ export default function AddApplication() {
 
       if (!response.ok) {
         const error = await response.text();
-        console.error("Failed to add application:", error);
-        alert("Failed to add application.");
+        console.error("Failed to add application:", error); // for me as dev
+        setError("Failed to add application. Please try again.");
         return;
       }
-
+      
       await response.json();
-
+      // reset back to defaults
       setCompany("");
       setPosition("");
       setLocation("");
@@ -63,7 +63,7 @@ export default function AddApplication() {
 
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
