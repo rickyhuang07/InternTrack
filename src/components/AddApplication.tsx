@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 export default function AddApplication() {
+  // setters for vars
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
   const [location, setLocation] = useState("");
@@ -12,10 +13,11 @@ export default function AddApplication() {
   const [link, setLink] = useState("");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   async function submitApplication() {
     if (!company.trim() || !position.trim()) {
-      alert("Please enter a company and position.");
+      setError("Please enter a company and position."); // storing error in react state
       return;
     }
 
@@ -69,6 +71,11 @@ export default function AddApplication() {
 
   return (
     <div className="space-y-4">
+      {error && (
+      <p className="text-sm text-red-600">
+        {error}
+      </p>
+    )}
 
       {/* Company */}
       <div>
