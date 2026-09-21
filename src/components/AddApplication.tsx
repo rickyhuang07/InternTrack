@@ -87,7 +87,10 @@ export default function AddApplication() {
           className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           placeholder="e.g. Google"
           value={company}
-          onChange={(e) => setCompany(e.target.value)}
+          // clear error when user types in company
+          onChange={(e) => {setCompany(e.target.value);
+            setError("");
+          }}
         />
       </div>
 
@@ -102,7 +105,9 @@ export default function AddApplication() {
           className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition placeholder:text-gray-300 focus:border-[#635bff] focus:ring-2 focus:ring-[#635bff]/10"
           placeholder="e.g. Software Engineer Intern"
           value={position}
-          onChange={(e) => setPosition(e.target.value)}
+          onChange={(e) => {setPosition(e.target.value);
+            setError(""); // same thing as company 
+          }}
         />
       </div>
 
